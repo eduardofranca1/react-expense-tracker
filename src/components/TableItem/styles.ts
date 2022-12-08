@@ -17,3 +17,8 @@ export const Category = styled.div<{ color: string }>`
 export const Value = styled.div<{ color: string }>`
   color: ${(props) => props.color};
 `;
+
+export const DeleteButton = styled.div`
+  font-size: 20px;
+  cursor: pointer;
+`;

@@ -1,13 +1,13 @@
 import { useState } from "react";
+import ItemController from "../../api/ItemController";
 import { Categories } from "../../data";
-import { Item } from "../../types";
 import Button from "../Button";
 import Input from "../Input";
 import SelectCategory from "../SelectCategory";
 import * as C from "./styles";
 
 interface Props {
-  onAddItem: (item: Item) => void;
+  onAddItem: () => void;
 }
 
 export default function InsertArea({ onAddItem }: Props) {
@@ -16,27 +16,20 @@ export default function InsertArea({ onAddItem }: Props) {
   const [title, setTitle] = useState<string>("");
   const [value, setValue] = useState<number>(0);
 
-  let categoryKeys = Object.keys(Categories);
-
-  const insertItem = () => {
-    let newItem = {
-      date: new Date(date),
-      category: category,
-      title: title,
-      value: value,
-    };
-
-    let errors: string[] = [];
-
-    if (isNaN(new Date(date).getTime())) errors.push("Invalid date");
-    if (!categoryKeys.includes(category)) errors.push("Invalid category");
-    if (title === "") errors.push("Ente a title");
-    if (value < 0 || isNaN(value)) errors.push("Invalid value");
-
-    if (errors.length > 0) alert(errors.join("\n"));
-    else onAddItem(newItem);
-
-    clearFields();
+  const createItem = async () => {
+    try {
+      let newItem = {
+        date: new Date(date),
+        category: category,
+        title: title,
+        value: value,
+      };
+      await ItemController.create(newItem);
+      onAddItem();
+      clearFields();
+    } catch (error: any) {
+      console.log(error);
+    }
   };
 
   const clearFields = () => {
@@ -76,7 +69,7 @@ export default function InsertArea({ onAddItem }: Props) {
         type={"number"}
       />
       <C.ButtonArea>
-        <Button name={"Insert"} onClick={insertItem} />
+        <Button name={"Insert"} onClick={createItem} />
       </C.ButtonArea>
     </C.Container>
   );

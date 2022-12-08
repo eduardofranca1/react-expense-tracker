@@ -1,19 +1,34 @@
 import { useState, useEffect } from "react";
 import * as C from "./App.styles";
-import { Categories, Items } from "./data";
-import { Category, Item } from "./types";
+import { Categories } from "./data";
+import { Item } from "./types";
 import { filterListByMonth, getCurrentMonth } from "./helpers/dateFilter";
 import TableArea from "./components/TableArea";
 import InfoArea from "./components/InfoArea";
 import InsertArea from "./components/InsertArea";
+import ItemController from "./api/ItemController";
 
 export default function App() {
-  const [listItems, setListItems] = useState(Items);
+  const [listItems, setListItems] = useState<Item[]>([]);
   const [filteredList, setFilteredList] = useState<Item[]>([]);
   const [currentMonth, setCurrentMonth] = useState(getCurrentMonth());
 
   const [income, setIncome] = useState<number>(0);
   const [expense, setExpense] = useState<number>(0);
+
+  const [update, setUpdate] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const result = await ItemController.findAll();
+        setListItems(result);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetch();
+  }, [update]);
 
   useEffect(() => {
     setFilteredList(filterListByMonth(listItems, currentMonth));
@@ -39,12 +54,6 @@ export default function App() {
     setCurrentMonth(newMonth);
   };
 
-  const handleAddItem = (item: Item) => {
-    let newList = [...listItems];
-    newList.push(item);
-    setListItems(newList);
-  };
-
   return (
     <C.Container>
       <C.Header>
@@ -60,10 +69,10 @@ export default function App() {
         />
 
         {/* ÁREA 2 - INSERÇÃO (INSERIR INFORMAÇÕES) */}
-        <InsertArea onAddItem={handleAddItem} />
+        <InsertArea onAddItem={() => setUpdate(!update)} />
 
         {/* ÁREA 3 - TABLE DE ITENS */}
-        <TableArea list={filteredList} />
+        <TableArea list={filteredList} onUpdate={() => setUpdate(!update)} />
       </C.Body>
     </C.Container>
   );

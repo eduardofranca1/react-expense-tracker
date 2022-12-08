@@ -9,12 +9,24 @@ export const filterListByMonth = (list: Item[], date: string): Item[] => {
   let newList: Item[] = [];
   let [year, month] = date.split("-");
 
-  for (let i in list) {
+  let listWithDateFormated: Item[] = [];
+
+  list.map((listMap) => {
+    listWithDateFormated.push({
+      id: listMap.id,
+      category: listMap.category,
+      date: new Date(listMap.date),
+      title: listMap.title,
+      value: listMap.value,
+    });
+  });
+
+  for (let i in listWithDateFormated) {
     if (
-      list[i].date.getFullYear() === parseInt(year) &&
-      list[i].date.getMonth() + 1 === parseInt(month)
+      listWithDateFormated[i].date.getFullYear() === parseInt(year) &&
+      listWithDateFormated[i].date.getMonth() + 1 === parseInt(month)
     ) {
-      newList.push(list[i]);
+      newList.push(listWithDateFormated[i]);
     }
   }
 

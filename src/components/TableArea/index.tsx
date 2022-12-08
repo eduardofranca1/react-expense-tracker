@@ -4,9 +4,10 @@ import * as C from "./styles";
 
 interface Props {
   list: Item[];
+  onUpdate?: () => void;
 }
 
-export default function TableArea({ list }: Props) {
+export default function TableArea({ list, onUpdate }: Props) {
   list.sort((a, b) => (a.date < b.date ? -1 : 1));
 
   return (
@@ -21,7 +22,7 @@ export default function TableArea({ list }: Props) {
       </thead>
       <tbody>
         {list.map((item, index) => (
-          <TableItem key={index} item={item} />
+          <TableItem onUpdate={onUpdate} key={index} item={item} />
         ))}
       </tbody>
     </C.Table>
