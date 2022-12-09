@@ -1,6 +1,5 @@
 import { useState } from "react";
 import ItemController from "../../api/ItemController";
-import { Categories } from "../../data";
 import Button from "../Button";
 import Input from "../Input";
 import SelectCategory from "../SelectCategory";

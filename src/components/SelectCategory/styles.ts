@@ -6,15 +6,16 @@ export const Container = styled.div`
 `;
 
 export const Label = styled.label`
+  display: block;
   font-size: 18px;
   font-weight: bold;
-`;
-
-export const ContainerLabel = styled.div`
-  padding: 8px 0;
+  margin-bottom: 8px;
 `;
 
 export const Select = styled.select`
+  display: block;
+  margin-top: 7px;
+  width: 100%;
   padding: 10px;
   border-radius: 10px;
   border: 1px solid #ccc;

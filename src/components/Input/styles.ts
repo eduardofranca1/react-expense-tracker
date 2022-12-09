@@ -1,22 +1,23 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  /* justify-content: center; */
-`;
+export const Container = styled.div``;
 
 export const Input = styled.input`
-  border-radius: 10px;
-  /* box-sizing: border-box; */
-  padding: 10px;
+  display: block;
   border: 1px solid #ccc;
-  /* width: 100%; */
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding: 10px;
+  width: 100%;
+  outline: 0;
+  margin-top: 7px;
 `;
 
 export const Label = styled.label`
   font-size: 18px;
   font-weight: bold;
+  display: block;
+  margin-bottom: 7px;
 `;
 
 export const ContainerLabel = styled.div`
